@@ -1,8 +1,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { COMPETITORS_DATA } from './constants';
-import { Competitor } from './types';
 import CompetitorCard from './components/CompetitorCard';
+import ChatBot from './components/ChatBot';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,63 +20,74 @@ const App: React.FC = () => {
   }, [searchTerm, allCompetitors]);
 
   return (
-    <div className="relative flex flex-col min-h-screen text-dakar-black selection:bg-dakar-yellow selection:text-dakar-black z-10">
+    <div className="relative flex flex-col min-h-screen text-dakar-black selection:bg-dakar-yellow selection:text-dakar-black">
       
-      {/* Header - Super Clean */}
-      <header className="relative px-6 pt-16 pb-8 text-center">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-40 bg-gradient-to-b from-dakar-yellow/5 to-transparent -z-10"></div>
-        
-        <div className="flex flex-col items-center mb-6">
-          <h2 className="text-5xl font-[900] text-black tracking-tighter">
-            ارحبببوا
-          </h2>
-          <div className="h-1.5 w-14 bg-dakar-yellow rounded-full mt-2"></div>
-          
-          <p className="mt-6 text-[13px] font-bold text-gray-500 leading-relaxed max-w-[280px] mx-auto">
-            هنا بتلقى معلومات سريعة عن السائقين السعوديين وأهم السائقين المتنافسين على البطولة
-          </p>
-        </div>
+      {/* Dynamic Header */}
+      <header className="sticky top-0 z-50 px-6 py-8">
+        <div className="glass-card rounded-[2.5rem] p-8 text-center border-white/80">
+          <div className="flex flex-col items-center mb-6">
+            <h2 className="text-6xl font-[900] text-black tracking-tighter drop-shadow-sm">
+              ارحبببوا
+            </h2>
+            <div className="h-1.5 w-16 bg-dakar-yellow rounded-full mt-3 shadow-[0_0_15px_rgba(255,210,0,0.5)]"></div>
+            
+            <p className="mt-6 text-[14px] font-bold text-gray-600 leading-relaxed max-w-[260px] mx-auto opacity-80">
+              هنا بتلقى معلومات سريعة عن السائقين السعوديين وأهم السائقين المتنافسين على البطولة
+            </p>
+          </div>
 
-        {/* Search Bar */}
-        <div className="relative max-w-sm mx-auto">
-          <input 
-            type="text" 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="ابحث برقم المتسابق أو اسمه..." 
-            className="w-full bg-white border-2 border-gray-100 rounded-2xl px-6 py-4 text-base font-bold outline-none focus:border-dakar-yellow transition-all placeholder:text-gray-300 text-center shadow-sm"
-          />
-          <div className="absolute right-5 top-1/2 -translate-y-1/2 text-dakar-yellow">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
+          {/* Search Box with Fluid Effect */}
+          <div className="relative max-w-sm mx-auto group">
+            <input 
+              type="text" 
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="ابحث برقم المتسابق أو اسمه..." 
+              className="w-full bg-white/70 border-2 border-white rounded-[1.8rem] px-8 py-5 text-base font-bold outline-none focus:ring-4 ring-dakar-yellow/10 transition-all placeholder:text-gray-300 text-center shadow-lg shadow-black/5"
+            />
+            <div className="absolute right-6 top-1/2 -translate-y-1/2 text-dakar-yellow group-focus-within:scale-110 transition-transform">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Main Content */}
-      <main className="flex-grow px-6 pb-12">
+      {/* Fluid List View */}
+      <main className="flex-grow px-6 pb-32 pt-4">
         {filteredCompetitors.length > 0 ? (
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-col gap-6">
             {filteredCompetitors.map((competitor, idx) => (
-              <div key={competitor.id} className="animate-slide-up" style={{ animationDelay: `${idx * 0.05}s` }}>
+              <div 
+                key={competitor.id} 
+                className="animate-reveal" 
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
                 <CompetitorCard competitor={competitor} />
               </div>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-100">
-            <p className="text-gray-400 font-bold mb-4">لا يوجد نتائج لهذا البحث</p>
+          <div className="glass-card flex flex-col items-center justify-center py-24 text-center rounded-[3rem] border-dashed">
+            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-6">
+              <svg className="w-8 h-8 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+            </div>
+            <p className="text-gray-400 font-bold mb-4">مالقينا شي للاسف</p>
             <button 
               onClick={() => setSearchTerm('')}
-              className="text-dakar-black underline text-xs font-black"
+              className="px-6 py-2 bg-dakar-black text-white rounded-full text-xs font-black hover:scale-105 transition-transform"
             >
-              عرض الكل
+              عرض كل الأبطال
             </button>
           </div>
         )}
       </main>
 
+      {/* Floating Chat Bot */}
+      <ChatBot />
     </div>
   );
 };
