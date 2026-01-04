@@ -6,7 +6,7 @@
   <link rel="icon" type="image/svg+xml" href="https://www.dakar.com/favicon.ico" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>رالي داكار السعودية | Dakar Saudi Arabia</title>
-  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -16,8 +16,9 @@
             dakar: {
               yellow: '#FFD200',
               black: '#111111',
-              gray: '#f4f4f4',
-              sand: '#FAF9F6'
+              sand: '#F9F7F2',
+              white: '#FFFFFF',
+              gray: '#777777'
             }
           },
           fontFamily: {
@@ -29,24 +30,44 @@
   </script>
   <style>
     body {
-      background-color: #f0f0f0;
+      background-color: #F9F7F2;
       font-family: 'Tajawal', sans-serif;
       color: #111111;
+      overflow-x: hidden;
     }
     #root {
-      max-width: 480px;
+      max-width: 500px;
       margin: 0 auto;
-      background: white;
+      background: #FFFFFF;
       min-height: 100vh;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      position: relative;
+      box-shadow: 0 0 50px rgba(0,0,0,0.03);
     }
-    .hide-scrollbar::-webkit-scrollbar {
-      display: none;
+    /* إضافة تضاريس السعودية في الخلفية (Topographic Lines) */
+    #root::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url('https://www.transparenttextures.com/patterns/white-sand.png'), url('https://www.svgrepo.com/show/44141/topographic-map.svg');
+      background-size: auto, 600px;
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
     }
-    .hide-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
+    .glass-light {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(0, 0, 0, 0.05);
     }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up { animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
   </style>
 <script type="importmap">
 {

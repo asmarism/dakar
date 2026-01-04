@@ -3,7 +3,6 @@ import React, { useState, useMemo } from 'react';
 import { COMPETITORS_DATA } from './constants';
 import { Competitor } from './types';
 import CompetitorCard from './components/CompetitorCard';
-import ChatBot from './components/ChatBot';
 
 const App: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -15,40 +14,39 @@ const App: React.FC = () => {
     if (!term) return allCompetitors;
     return allCompetitors.filter(c => 
       c.id.toString().includes(term) || 
-      (c.name && c.name.toLowerCase().includes(term))
+      (c.name && c.name.toLowerCase().includes(term)) ||
+      (c.vehicle && c.vehicle.toLowerCase().includes(term))
     );
   }, [searchTerm, allCompetitors]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-dakar-black selection:bg-dakar-yellow selection:text-dakar-black">
-      {/* Mobile Top Header */}
-      <header className="bg-white sticky top-0 z-50 px-6 pt-8 pb-6 border-b border-gray-50">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-dakar-black rounded-lg flex items-center justify-center">
-              <span className="text-dakar-yellow font-black text-lg">D</span>
-            </div>
-            <h1 className="text-lg font-black uppercase tracking-tight">
-              رالي داكار <span className="text-gray-400">السعودية</span>
-            </h1>
-          </div>
-          <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center border border-gray-100">
-            <svg className="w-4 h-4 text-dakar-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-            </svg>
-          </div>
+    <div className="relative flex flex-col min-h-screen text-dakar-black selection:bg-dakar-yellow selection:text-dakar-black z-10">
+      
+      {/* Header - Super Clean */}
+      <header className="relative px-6 pt-16 pb-8 text-center">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-40 bg-gradient-to-b from-dakar-yellow/5 to-transparent -z-10"></div>
+        
+        <div className="flex flex-col items-center mb-6">
+          <h2 className="text-5xl font-[900] text-black tracking-tighter">
+            ارحبببوا
+          </h2>
+          <div className="h-1.5 w-14 bg-dakar-yellow rounded-full mt-2"></div>
+          
+          <p className="mt-6 text-[13px] font-bold text-gray-500 leading-relaxed max-w-[280px] mx-auto">
+            هنا بتلقى معلومات سريعة عن السائقين السعوديين وأهم السائقين المتنافسين على البطولة
+          </p>
         </div>
 
-        {/* Search Bar - Mobile Focus */}
-        <div className="relative group">
+        {/* Search Bar */}
+        <div className="relative max-w-sm mx-auto">
           <input 
             type="text" 
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="ابحث عن سائق أو رقم..." 
-            className="w-full bg-gray-100 border-2 border-transparent rounded-2xl px-6 py-4 text-base font-bold outline-none focus:bg-white focus:border-dakar-yellow transition-all shadow-sm placeholder:text-gray-400"
+            placeholder="ابحث برقم المتسابق أو اسمه..." 
+            className="w-full bg-white border-2 border-gray-100 rounded-2xl px-6 py-4 text-base font-bold outline-none focus:border-dakar-yellow transition-all placeholder:text-gray-300 text-center shadow-sm"
           />
-          <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400">
+          <div className="absolute right-5 top-1/2 -translate-y-1/2 text-dakar-yellow">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
@@ -56,33 +54,22 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content Area */}
-      <main className="flex-grow p-6 bg-white">
-        <div className="flex items-center justify-between mb-6">
-            <span className="text-xs font-black text-gray-300 uppercase tracking-widest">المتسابقون الرسميون</span>
-            <div className="flex items-center gap-1.5 bg-gray-50 px-3 py-1 rounded-full border border-gray-100">
-                <span className="w-2 h-2 bg-dakar-yellow rounded-full shadow-[0_0_8px_rgba(255,210,0,0.5)]"></span>
-                <span className="text-[10px] font-black uppercase text-dakar-black">{filteredCompetitors.length} متسابق</span>
-            </div>
-        </div>
-
+      {/* Main Content */}
+      <main className="flex-grow px-6 pb-12">
         {filteredCompetitors.length > 0 ? (
           <div className="grid grid-cols-2 gap-4">
-            {filteredCompetitors.map(competitor => (
-              <CompetitorCard key={competitor.id} competitor={competitor} />
+            {filteredCompetitors.map((competitor, idx) => (
+              <div key={competitor.id} className="animate-slide-up" style={{ animationDelay: `${idx * 0.05}s` }}>
+                <CompetitorCard competitor={competitor} />
+              </div>
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
-              <svg className="w-8 h-8 text-gray-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-              </svg>
-            </div>
-            <p className="text-gray-400 font-bold mb-4">لا توجد نتائج مطابقة</p>
+          <div className="flex flex-col items-center justify-center py-20 text-center bg-gray-50 rounded-[2.5rem] border-2 border-dashed border-gray-100">
+            <p className="text-gray-400 font-bold mb-4">لا يوجد نتائج لهذا البحث</p>
             <button 
               onClick={() => setSearchTerm('')}
-              className="bg-dakar-black text-dakar-yellow px-6 py-2 rounded-xl text-sm font-black shadow-lg"
+              className="text-dakar-black underline text-xs font-black"
             >
               عرض الكل
             </button>
@@ -90,16 +77,6 @@ const App: React.FC = () => {
         )}
       </main>
 
-      {/* Simple Footer for Mobile */}
-      <footer className="p-10 bg-white border-t border-gray-50 text-center">
-        <img src="https://www.dakar.com/img/dakar-logo.png" alt="Dakar" className="h-8 mx-auto mb-4 grayscale opacity-20" />
-        <p className="text-[9px] text-gray-300 font-black uppercase tracking-[0.3em]">
-          Dakar Rally Saudi Arabia Hub
-        </p>
-      </footer>
-
-      {/* Floating Assistant */}
-      <ChatBot />
     </div>
   );
 };
