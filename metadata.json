@@ -1,0 +1,7 @@
+{
+  "name": "Dakar Saudi Arabia Hub",
+  "description": "An interactive dashboard for Dakar Rally Saudi Arabia with competitor search and AI-powered rally insights using Gemini.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}
