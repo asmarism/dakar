@@ -1,8 +1,8 @@
 
 import { GoogleGenAI } from "@google/genai";
-import { ChatMessage } from '../types';
 
 // Initialize the Google GenAI SDK with the API key from environment variables
+// The SDK requires the apiKey to be passed in a named parameter object
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const SYSTEM_INSTRUCTION = `
@@ -17,8 +17,10 @@ Always respond in Arabic as the primary language, but you can include English te
 When providing search-grounded info, cite your sources.
 `;
 
+// Fix: Removed the invalid import of ChatMessage as it does not exist in types.ts
 export const getDakarInfo = async (query: string): Promise<{ text: string; links: any[] }> => {
   try {
+    // Fix: Using ai.models.generateContent to fetch data with googleSearch grounding
     const response = await ai.models.generateContent({
       model: "gemini-3-flash-preview",
       contents: query,
@@ -28,10 +30,11 @@ export const getDakarInfo = async (query: string): Promise<{ text: string; links
       },
     });
 
-    // Extract text and grounding sources from the response using the .text property
+    // Fix: Using the .text property to access the response string as per @google/genai guidelines
     const text = response.text || "عذراً، لم أتمكن من الحصول على المعلومات المطلوبة حالياً.";
     const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
     
+    // Fix: Extracting URLs from groundingChunks to display sources as required by guidelines
     const links = chunks
       .filter((chunk: any) => chunk.web)
       .map((chunk: any) => ({

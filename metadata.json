@@ -1,6 +1,6 @@
 {
-  "name": "Dakar Saudi Arabia Hub",
-  "description": "An interactive dashboard for Dakar Rally Saudi Arabia with competitor search and AI-powered rally insights using Gemini.",
+  "name": "Dakar 2026 Trip Hub",
+  "description": "The ultimate interactive guide for the Riyadh-Hail Dakar 2026 expedition. Crew info, itinerary, and real-time competitor tracking.",
   "requestFramePermissions": [
     "geolocation"
   ]

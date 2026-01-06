@@ -9,13 +9,21 @@ export interface Competitor {
   vehicle?: string;
 }
 
-export interface ChatMessage {
-  role: 'user' | 'model';
-  text: string;
-  links?: Array<{ title: string; uri: string }>;
+export interface TripMember {
+  name: string;
+  role: string;
+  avatar: string;
+  task: string;
 }
 
-export interface SearchResult {
-  competitor?: Competitor;
-  aiInfo?: string;
+export interface TimelineEvent {
+  id: string;
+  day: string;
+  date: string;
+  time: string;
+  title: string;
+  description: string;
+  locationName?: string;
+  geo?: string;
+  type: 'drive' | 'cook' | 'watch' | 'sleep' | 'wake' | 'start' | 'city';
 }
