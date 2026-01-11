@@ -1,7 +1,5 @@
 {
-  "name": "رالي داكار",
-  "description": "",
-  "requestFramePermissions": [
-    "geolocation"
-  ]
+  "name": "داكار 2027",
+  "description": "نلقاكم في داكار 2027 إن شاء الله",
+  "requestFramePermissions": []
 }
